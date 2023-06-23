@@ -4,9 +4,9 @@ class UserController {
 
     async registration(req, res, next) {
         try {
-            const {email, password, login} = req.body;
+            const {email, password} = req.body;
             console.log(password)
-            const userData = await UserService.registration(email, password, login);
+            const userData = await UserService.registration(email, password);
 
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
 
@@ -120,7 +120,18 @@ class UserController {
         try {
             const {refreshToken} = req.cookies;
             const {ip, city, lat, long} = req.body;
+
             const infoConnection = await UserService.updateInfoIp(refreshToken, ip, city, lat, long)
+            return res.json(infoConnection)
+        } catch (e) {
+            console.log(e)
+            next(e)
+        }
+    }
+    async deleteAll(req, res, next){
+        try {
+            const {refreshToken} = req.cookies;
+            const infoConnection = await UserService.deleteAll(refreshToken)
             return res.json(infoConnection)
         } catch (e) {
             console.log(e)
@@ -152,7 +163,7 @@ class UserController {
         const chars =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         function generateTestData(sizeInKb) {
-          const iterations = sizeInKb; //get byte count
+          const iterations = sizeInKb;
           let result = '';
           for (let index = 0; index < iterations; index++) {
             result += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -160,7 +171,7 @@ class UserController {
           return result;
         }
         try {
-            console.log('gfdsgsdfdgsf')
+
             const size = req.params.size;
             const testData = generateTestData(size);
             return res.json(testData)
@@ -168,6 +179,27 @@ class UserController {
             next(e)
         }
     }
+    async updateSettings(req, res, next){
+        try {
+            const {refreshToken} = req.cookies;
+            const { downloadSpeed, uploadSpeed, ping, mb, ipSettings, browserSettings } = req.body;
+            const settings = await UserService.updateSettings(refreshToken, downloadSpeed, uploadSpeed, ping, mb, ipSettings, browserSettings)
+            return res.json(settings)
+        } catch (e) {
+            next(e)
+        }
+    }
+    
+    async getSettings(req, res, next){
+        try {
+            const {refreshToken} = req.cookies;
+            const settings = await UserService.getSettings(refreshToken);
+            console.log(settings)
+            return res.json(settings)
+        } catch (e) {
+            next(e)
+        }
+    } 
 }
 
 export default new UserController();

@@ -22,6 +22,9 @@ export default class AuthService {
   static async getInfoIp() {
     return $api.get("/getInfoIp");
   }
+  static async getSettings() {
+    return $api.get("/getsettings");
+  }
 
   static async getInfoConnection() {
     return $api.get("/getInfoConnection");
@@ -30,7 +33,9 @@ export default class AuthService {
   static async updateInfoIp(ip, city, lat, long) {
     return $api.post("/udpateInfoIp", { ip, city, lat, long });
   }
-
+  static async deleteAll() {
+    return $api.get("/deleteAll");
+  }
   static async updateInfoConnection(downloadSpeed, uploadSpeed, ping) {
     return $api.post("/udpateInfoConnection", {
       downloadSpeed,
@@ -38,4 +43,15 @@ export default class AuthService {
       ping,
     });
   }
+  static async updateSettings(downloadSpeed, uploadSpeed, ping, mb, ipSettings, browserSettings) {
+    return $api.post("/updateSettings", {
+      downloadSpeed,
+      uploadSpeed,
+      ping,
+      mb,
+      ipSettings,
+      browserSettings
+    });
+  }
+
 }

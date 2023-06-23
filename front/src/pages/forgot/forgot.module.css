@@ -1,62 +1,91 @@
-.container{
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f3f3f3;
+  color: #343434;
+  font-family: "Gill Sans Ru";
 }
-.centered{
-    display: flex;
-    width: 20vw;
-    flex-direction: column;
-    align-items: center;
-    animation-name: fillOpacity;
-    animation-duration: 1.5s;
-    font-size: 36px;
+.button {
+  border: none;
+  background: none;
+  color: #343434;
+  text-decoration: underline;
+  text-transform: none;
+  font-size: 22px;
+  font-family: "Gill Sans Ru";
+  padding: 0;
 }
-.under{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin: 0 0 50px 0;
+.block {
+  width: 15%;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  padding: 10px 10%;
+  display: flex;
+  flex-direction: column;
 }
-p{
-    margin: 0;
-    font-size: 16px;
+.label {
+  width: 100%;
+  text-align: center;
+  margin: 50px 0;
+  font-family: "Gill Sans Ru";
+  font-size: 24px;
 }
-.element{
-    width: 100%;
+.inputsLabel {
+  font-size: 18px;
 }
-.enter{
-    margin: 0 0 150px 0;
+.inputs {
+  margin: 10px 0;
+}
+.underBlock {
+  display: flex;
+  justify-content: space-between;
+  width: 35%;
+  margin: 15px 0;
+}
+.underChild {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  width: 100%;
 }
 
+.underChildButton {
+  border: none;
+  background: none;
+  color: #343434;
+  text-decoration: underline;
+  text-transform: none;
+  font-size: 18px;
+  font-family: "Gill Sans Ru";
+  padding: 5px;
+}
+.errorText {
+  color: #b22727;
+}
+input {
+  font-size: 14px;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #000;
+  padding: 8px 0;
+  outline: none;
+  margin-bottom: 24px;
+}
 
-@keyframes fillOpacity {
-    from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-  }
-  input {
-    font-size: 14px;
-    width: 100%;
-    background: none;
-    border: none;
-    border-bottom: 1px solid #000;
-    padding: 8px 0;
-    outline: none;
-    margin-bottom: 24px;
-  }
-  
-  button {
-    padding: 8px 16px;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    text-transform: uppercase;
-    margin: 15px 0;
-  }
+button {
+  padding: 8px 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin: 15px 0;
+}

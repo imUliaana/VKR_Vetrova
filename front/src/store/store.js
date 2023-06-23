@@ -6,6 +6,8 @@ export default class Store {
   isAuth = false;
   salt = "";
   error = "";
+  ipSettings = [];
+  browserSettings = [];
   user = {
     email: "",
     isActivated: false,
@@ -25,13 +27,29 @@ export default class Store {
   };
   IpArray = new Array();
   ConnectionArray = new Array();
-
+  Settings = {
+    download: "",
+    upload: "",
+    ping: "",
+    mb: ""
+  };
   constructor() {
     makeAutoObservable(this);
   }
 
   setAuth(bool) {
     this.isAuth = bool;
+  }
+  setSettings(settings) {
+    this.Settings = settings;
+  }
+
+  setIpSettings(ipSettings) {
+    this.ipSettings = ipSettings;
+  }
+
+  setBrowserSettings(browserSettings) {
+    this.browserSettings = browserSettings;
   }
 
   setUser(user) {
@@ -53,21 +71,26 @@ export default class Store {
   }
   async login(email, password) {
     try {
+      this.setError('')
+      console.log(email, password)
       const response = await AuthService.login(email, password);
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
     } catch (e) {
+      this.setError(e.response?.data?.message)
       console.error(e.response?.data?.message);
     }
   }
   async registration(email, password, login) {
     try {
+      this.setError('')
       const response = await AuthService.registration(email, password, login);
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
     } catch (e) {
+      this.setError(e.response?.data?.message)
       console.error(e.response?.data?.message);
     }
   }
@@ -162,24 +185,41 @@ export default class Store {
       console.error(e.response?.data?.message);
     }
   }
-  async getNetworkDownloadSpeed() {
+  async getNetworkDownloadSpeed(download) {
 
-    const speed = await NetworkSpeedCheck.checkDownloadSpeed(
-    );
+    const speed = await NetworkSpeedCheck.checkDownloadSpeed(download);
 
     console.log(`Download Speed: ${JSON.stringify(speed)}`);
     return(speed.mbps)
   }
 
-  async getNetworkUploadSpeed() {
-    const fileSizeInBytes = 2000000;
+  async getNetworkUploadSpeed(uploadSize, pingSize) {
     const speed = await NetworkSpeedCheck.checkUploadSpeed(
-      fileSizeInBytes
+      uploadSize
     );
     const ping = await NetworkSpeedCheck.checkPing(
+      pingSize
     );
     console.log(`Upload Speed: ${JSON.stringify(speed)}`);
     console.log(`Ping: ${JSON.stringify(ping)}`);
     return({speed:speed.mbps, ping: ping})
+  }
+  async updateSettings(download, upload, ping, mb, ipSettings, browserSettings) {
+    console.log(download, upload, ping, mb, ipSettings, browserSettings)
+    const settings = await AuthService.updateSettings(download, upload, ping, mb, ipSettings, browserSettings);
+  }
+  async deleteAll() {
+    console.log('gsdfs')
+    const settings = await AuthService.deleteAll();
+    this.setIpArray([])
+    this.setConnectionArray([])
+    console.log(settings)
+  }
+  async getSettings(){
+    const response = await AuthService.getSettings();
+    console.log(response.data)
+    this.setSettings(response.data)
+    this.setIpSettings(response.data.ipSettings);
+    this.setBrowserSettings(response.data.browserSettings);
   }
 }
